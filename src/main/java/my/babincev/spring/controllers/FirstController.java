@@ -42,10 +42,10 @@ public class FirstController {
                 result = a + " - " + b + " = " + Double.toString(a - b);
                 break;
             case "division":
-                try{
+                if (!Double.isInfinite(a / b)){
                     result = a + " / " + b + " = " + Double.toString(a / b);
                     break;
-                } catch (Exception ignored){}
+                }
             default:
                 result = "Invalid action!";
                 break;
