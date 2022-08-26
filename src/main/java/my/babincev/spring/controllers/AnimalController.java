@@ -24,6 +24,12 @@ public class AnimalController {
         return "animals/show";
     }
 
+    @GetMapping("/{id}/edit")
+    public String editAnimal(@PathVariable("id") int id, Model model){
+        model.addAttribute("animal", animalDAO.getAnimal(id));
+        return "animals/edit";
+    }
+
     @GetMapping("/new")
     public String newAnimal(Model model){
         model.addAttribute("animal", new Animal());
@@ -33,6 +39,18 @@ public class AnimalController {
     @PostMapping()
     public String createAnimal(@ModelAttribute("animal") Animal animal){
         animalDAO.addAnimal(animal);
+        return "redirect:/animals";
+    }
+
+    @PatchMapping ("/{id}")
+    public String edit(@PathVariable("id") int id, @ModelAttribute("animal") Animal animal){
+        animalDAO.updateAnimal(id, animal);
+        return "redirect:/animals";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        animalDAO.deleteAnimal(id);
         return "redirect:/animals";
     }
 

@@ -36,4 +36,16 @@ public class AnimalDAO {
         }
         return null;
     }
+
+    public void updateAnimal(int id, Animal animal){
+        animals.set(id - 1, animal);
+    }
+
+    public void deleteAnimal(int id) {
+        for (int i = 0; i < animals.size(); i++){
+            if (animals.get(i).getId() == id){
+                animals.remove(i);
+            }
+        }
+    }
 }

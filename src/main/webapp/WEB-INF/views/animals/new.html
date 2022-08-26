@@ -9,11 +9,13 @@
 <form th:method="POST" th:action="@{/animals}" th:object="${animal}">
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name">
+    <br/>
+
     <label for="type">Enter type</label>
     <input type="text" th:field="*{type}" id="type">
+    <br/>
 
     <input type="submit" value="Create new animal!">
-
 </form>
 
 </body>

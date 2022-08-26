@@ -27,6 +27,7 @@ public class Animal {
     }
 
     public void setType(String type) {
+        type = type.toLowerCase();
         this.type = type;
     }
 
