@@ -2,6 +2,7 @@ package my.babincev.spring.controllers;
 
 import my.babincev.spring.dao.AnimalDAO;
 import my.babincev.spring.models.Animal;
+import my.babincev.spring.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,22 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/animals")
 public class AnimalController {
 
-    private final AnimalDAO animalDAO;
+    private final AnimalService animalService;
 
     @Autowired
-    public AnimalController(AnimalDAO animalDAO) {
-        this.animalDAO = animalDAO;
+    public AnimalController(AnimalService animalDAO) {
+        this.animalService = animalDAO;
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
-        model.addAttribute("animal", animalDAO.getAnimal(id));
+    public String getAnimal(@PathVariable("id") int id, Model model){
+        model.addAttribute("animal", animalService.getAnimal(id));
         return "animals/show";
     }
 
     @GetMapping("/{id}/edit")
     public String editAnimal(@PathVariable("id") int id, Model model){
-        model.addAttribute("animal", animalDAO.getAnimal(id));
+        model.addAttribute("animal", animalService.getAnimal(id));
         return "animals/edit";
     }
 
@@ -38,25 +39,25 @@ public class AnimalController {
 
     @PostMapping()
     public String createAnimal(@ModelAttribute("animal") Animal animal){
-        animalDAO.addAnimal(animal);
+        animalService.addAnimal(animal);
         return "redirect:/animals";
     }
 
     @PatchMapping ("/{id}")
-    public String edit(@PathVariable("id") int id, @ModelAttribute("animal") Animal animal){
-        animalDAO.updateAnimal(id, animal);
+    public String editAnimal(@PathVariable("id") int id, @ModelAttribute("animal") Animal animal){
+        animalService.updateAnimal(id, animal);
         return "redirect:/animals";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
-        animalDAO.deleteAnimal(id);
+    public String deleteAnimal(@PathVariable("id") int id){
+        animalService.deleteAnimal(id);
         return "redirect:/animals";
     }
 
     @GetMapping()
-    public String index(Model model){
-        model.addAttribute("animals", animalDAO.index());
+    public String getAllAnimalPage(Model model){
+        model.addAttribute("animals", animalService.getAnimals());
         return "animals/index";
     }
 }
