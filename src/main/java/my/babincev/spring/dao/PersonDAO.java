@@ -21,21 +21,25 @@ public class PersonDAO {
 
     }
 
-    public List<Person> index(){
+    public List<Person> getPeople(){
         return people;
     }
 
-    public Person show(int id){
+    public Person getPersonById(int id) throws Exception {
         for (Person person:
-             people) {
+                people) {
             if (person.getId() == id){
                 return person;
             }
         }
-        return null;
+        throw new Exception("Person not found!");
     }
 
-    public void save(Person person){
+    public Person getPerson(int id) throws Exception {
+        return getPersonById(id);
+    }
+
+    public void savePerson(Person person){
         person.setId(++PEOPLE_COUNT);
         people.add(person);
     }
@@ -50,7 +54,8 @@ public class PersonDAO {
         }
     }
 
-    public void deletePerson(int id){
-        people.removeIf(p -> p.getId() == id);
+    public void deletePerson(int id) throws Exception {
+        Person person = getPersonById(id);
+        people.remove(person);
     }
 }

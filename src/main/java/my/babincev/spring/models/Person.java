@@ -13,11 +13,11 @@ public class Person {
     private String name;
 
     @Min(value = 0, message = "Age should be greater than 0")
-    int age;
+    private int age;
 
     @NotEmpty(message = "Empty email is not allowed!")
     @Email(message = "This email is not valid!")
-    String email;
+    private String email;
 
     public int getAge() {
         return age;

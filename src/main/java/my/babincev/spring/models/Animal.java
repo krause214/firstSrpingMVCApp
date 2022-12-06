@@ -4,9 +4,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class Animal {
-    String name;
-    String type;
-    int id;
+    private String name;
+    private String type;
+    private int id;
 
     public Animal() {
     }

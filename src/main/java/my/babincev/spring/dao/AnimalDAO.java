@@ -19,7 +19,7 @@ public class AnimalDAO {
         animals.add(new Animal("Bobik", "dog", ++ANIMAL_COUNT));
     }
 
-    public ArrayList<Animal> index(){
+    public ArrayList<Animal> getAnimals(){
         return animals;
     }
 

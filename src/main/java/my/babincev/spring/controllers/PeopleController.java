@@ -3,6 +3,7 @@ package my.babincev.spring.controllers;
 
 import my.babincev.spring.dao.PersonDAO;
 import my.babincev.spring.models.Person;
+import my.babincev.spring.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,24 +16,24 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PeopleController(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     @GetMapping()
-    public String index(Model model){
+    public String getPeople(Model model){
         // получение всех людей из DAO и передача на отображение в представление
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("people", peopleService.getPeople());
         return "people/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String getPerson(@PathVariable("id") int id, Model model) throws Exception {
         // получение одного человека по id из DAO и передача через отображение в представление
-        model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("person", peopleService.getPerson(id));
         return "people/show";
     }
 
@@ -48,29 +49,29 @@ public class PeopleController {
         if(bindingResult.hasErrors())
             return "/people/new";
 
-        personDAO.save(person);
+        peopleService.savePerson(person);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
-    public String editPerson(Model model, @PathVariable("id") int id){
-        model.addAttribute("person", personDAO.show(id));
+    public String editPerson(Model model, @PathVariable("id") int id) throws Exception {
+        model.addAttribute("person", peopleService.getPerson(id));
         return "/people/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                         @PathVariable("id") int id){
+    public String updatePerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
+                               @PathVariable("id") int id){
         if(bindingResult.hasErrors())
             return "people/edit";
 
-        personDAO.updatePerson(id, person);
+        peopleService.updatePerson(id, person);
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
-        personDAO.deletePerson(id);
+    public String deletePerson(@PathVariable("id") int id){
+        peopleService.deletePerson(id);
         return "redirect:/people";
     }
 }
